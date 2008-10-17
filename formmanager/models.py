@@ -106,13 +106,13 @@ class ManagedFormEntry(models.Model):
 
     def get_entry_fields(self):
         fields={}
-        for f in self.managedformentryfield_set.select_related():
+        for f in self.managedformentryfield_set.select_related().order_by("field__order","field__key"):
             fields[f.field.key]=f.value()
         return fields
 
     def get_escaped_entry_values(self):
         vals=[]
-        for f in self.managedformentryfield_set.select_related().order_by("field__order"):
+        for f in self.managedformentryfield_set.select_related().order_by("field__order","field__key"):
             val = f.value()
             if not val: val=""  
             vals.append(val.replace("\n",' ').replace('"','\"'))
@@ -145,7 +145,7 @@ class ManagedFormEntryField(models.Model):
 
     def value(self):
         if self.field.type=="char": return self.char_value
-        if self.field.type=="text": return self.text_value
+        if self.field.type=="text": return self.big_value
         if self.field.type=="int": return self.int_value
         if self.field.type=="float": return self.float_value
         if self.field.type=="file": return "http://%s%s"%(sites.Site.objects.get_current().domain,self.file.url)
@@ -155,7 +155,7 @@ class ManagedFormEntryField(models.Model):
 
     def set_value(self,v):
         if self.field.type=="char": self.char_value=v
-        if self.field.type=="text": self.text_value=v
+        if self.field.type=="text": self.big_value=v
         if self.field.type=="int": self.int_value=v
         if self.field.type=="float": self.float_value=v
         if self.field.type=="file": self.file=v
