@@ -5,7 +5,7 @@
 <form action="{{ form.form_action }}" method="post" {% if form.has_files %}enctype="multipart/formdata"{% endif %} >
     <table>
     {{ form }}
-    <tr><td colspan="2"><input type="submit" /></td></tr>
+    <tr><td></td><td><input type="submit" value="Submit" /></td></tr>
     </table>
 </form>
 </div>

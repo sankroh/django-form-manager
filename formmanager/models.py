@@ -6,7 +6,7 @@ import datetime
 
 FORMFIELD_MAP={
     "char":("Single Line Input (max 200 characters)",forms.CharField,{}),
-    "text":("Multiline Input",forms.CharField,{"widget":forms.widgets.TextInput}),
+    "text":("Multiline Input",forms.CharField,{"widget":forms.widgets.Textarea}),
     "int":("Integer Input",forms.IntegerField,{}),
     "float":("Decimal Input",forms.DecimalField,{}),
     "file":("File Input",forms.FileField,{}),
