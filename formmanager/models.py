@@ -70,11 +70,12 @@ class ManagedForm(models.Model):
 
     def get_admin_csv(self):
         n=datetime.datetime.now()
-        return """<a href="%(url)sexport/?form__id__exact=%(id)i">today</a><br/>
-                  <a href="%(url)sexport/?form__id__exact=%(id)i&submit_date__day=%(day)i&submit_date__month=%(month)i&submit_date__year=%(year)i">this week</a><br/>
-                  <a href="%(url)sexport/?form__id__exact=%(id)i&submit_date__gte=%(year)i-%(month)i-%(day)i">this month</a><br/>
+        w=n-datetime.timedelta(days=n.weekday()) #create a new date for the start of the week
+        return """<a href="%(url)sexport/?form__id__exact=%(id)i&submit_date__day=%(day)i&submit_date__month=%(month)i&submit_date__year=%(year)i">today</a><br/>
+                  <a href="%(url)sexport/?form__id__exact=%(id)i&submit_date__gte=%(wyear)i-%(wmonth)i-%(wday)i">this week</a><br/>
+                  <a href="%(url)sexport/?form__id__exact=%(id)i&submit_date__gte=%(year)i-%(month)i-01">this month</a><br/>
                   <a href="%(url)sexport/?form__id__exact=%(id)i">all</a>
-                """%{"id":self.id,"year":n.year,"month":n.month,"day":n.day,"url":self.get_absolute_url()}
+                """%{"id":self.id,"year":n.year,"month":n.month,"day":n.day,"url":self.get_absolute_url(),"wday":w.day,"wmonth":w.month,"wyear":w.year}
     get_admin_csv.allow_tags=True
 
     def __unicode__(self):
