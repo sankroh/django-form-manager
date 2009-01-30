@@ -23,7 +23,7 @@ def form_processor(request,slug):
                     mfef.set_value(form.cleaned_data[k])
                     mfef.save()
             if mform.cc_email:
-                content = "\n".join(mfe.get_entry_fields().items())
+                content = "\n".join("%s: %s"%(fe[0],fe[1]) for fe in mfe.get_entry_fields().items())
                 mail.send_mail("New Submission - %s"%mform.slug, content, settings.ADMIN_EMAIL, [mform.cc_email],True)
             return HttpResponseRedirect(mform.success_page)
     else:
