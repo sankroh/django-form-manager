@@ -30,7 +30,7 @@ def form_processor(request,slug):
         form=mform.get_form()
     template="formmanager/default.html"
     if mform.template: template=mform.template
-    return render_to_response(template,{"form":form},context_instance=RequestContext(request))
+    return render_to_response(template,{ 'form':form, 'slug':slug },context_instance=RequestContext(request))
 
 def export(request, slug):
     mform=get_object_or_404(ManagedForm,slug=slug)
